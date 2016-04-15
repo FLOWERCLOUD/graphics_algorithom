@@ -46,3 +46,4 @@ Debug/Mini3D.exe.embed.manifest
 *.idb
 *.ilk
 *.cache
+*.suo

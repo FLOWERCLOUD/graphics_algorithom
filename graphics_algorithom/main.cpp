@@ -15,7 +15,7 @@ Node* globalroot;
 //parameter of view
 const float PI  = 3.14159f;
 float xtranslate , ytranslate = 0.0f;
-float ztranslate = 10.0f;
+float ztranslate = 0.5f/tan(30.0f/180.0f*PI );
 float xrotate ,yrotate ,zrotate;
 
 float fov = 60.0f;
@@ -40,20 +40,25 @@ void display()
 	{	if(0)
 		glOrtho( -1.1f , 1.1f, -1.1f*winheight/winwidth , 1.1f*winheight/ winwidth, 10,30);
 		else
-		gluPerspective(fov ,1.0f*winwidth/winheight, 0.5f/tan(30.0f/180.0f*PI ) ,0.5f/tan(30.0f/180.0f*PI )+300);
+		gluPerspective(fov ,1.0f*winwidth/winheight, 0.01f/tan(30.0f/180.0f*PI ) ,0.01f/tan(30.0f/180.0f*PI )+300);
 		cout<<"apspect: "<<1.0f*winwidth/winheight<<endl;
 	}		
 	else
 	{	if(0)
 		glOrtho( -1.1f* winwidth/winheight,1.1f* winwidth/winheight, -1.1f , 1.1f ,10,30);
 		else
-		gluPerspective(fov ,1.0f*winwidth/winheight, 0.5f/tan(30.0f/180.0f*PI ) ,0.5f/tan(30.0f/180.0f*PI )+300);
+		gluPerspective(fov ,1.0f*winwidth/winheight, 0.01f/tan(30.0f/180.0f*PI ) ,0.01f/tan(30.0f/180.0f*PI )+300);
 		cout<<"apspect: "<<1.0f*winwidth/winheight<<endl;
 	} 
 
 	glColor3f(1.0,0.0f ,0.0f);
 
-	draw(globalroot);
+	//draw(globalroot);
+	drawgrid(50,60);
+	drawpoint( 0,0);
+	drawpoint( 20,30);
+	drawpoint( 10,10);
+	drawline( 0,0 ,10,10);
 	//drwa rectangle
 	//glRectf( -0.5f ,-0.5f , 0.5f, 0.5f);
 
