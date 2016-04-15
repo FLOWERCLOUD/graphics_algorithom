@@ -2,8 +2,7 @@
 
 #include "drawtools.h"
 #include "kdtree2d.h"
-#include <GL/gl.h>
-#include <gl/glut.h>
+#include "freeglut.h"
 static void drawiter(Node* node)
 {
 	if(node)

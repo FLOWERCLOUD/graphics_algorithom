@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #include "kdtree2d.h"
 #include "drawtools.h"
-#include <GL/gl.h>
+//#include <GL/gl.h>
 #include "freeglut.h"
 #include <iostream>
 #include <math.h>
