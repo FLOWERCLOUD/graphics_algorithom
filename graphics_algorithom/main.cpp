@@ -20,6 +20,10 @@ float xrotate ,yrotate ,zrotate;
 
 float fov = 60.0f;
 float aspect;
+
+static float c= PI/180.0f; //弧度和角度转换参数 
+static int du=90,oldmy=-1,oldmx=-1; //du是视点绕y轴的角度,opengl里默认y轴是上方向 
+static float r=1.5f,h=0.0f; //r是视点绕y轴的半径,h是视点高度即在y轴上的坐标
 void display()
 {
 	//glViewport( 0, 0, winwidth/2,winheight/2 ); 
@@ -30,6 +34,7 @@ void display()
 	glViewport(0,0,winwidth,winheight);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+	//gluLookAt(r*cos(c*du), h, r*sin(c*du), 0,0.0,-300.0f ,0,1,0);
 	gluLookAt( xtranslate, ytranslate ,ztranslate, 0,0.0,-300.0f ,0,1,0);
 	glRotatef( xrotate, 1.0f ,0.0f ,0.0f);
 	glRotatef( yrotate, 0.0f ,1.0f ,0.0f);
@@ -167,9 +172,60 @@ void keyfunc(unsigned char key, int xMouse,int yMouse)
 void mouseFunc(int button,int action,int xMouse,int yMouse)
 {
 	
+	cout<<"button: "<<button<<endl;
+	cout<<"xMouse yMouse: "<<xMouse<<" "<<yMouse<<endl;
+	int type = 0;
+	if(button == GLUT_LEFT_BUTTON&&action == GLUT_DOWN)
+	{	type = 0;
+		oldmx=xMouse,oldmy=yMouse;  
+	}
+	if(button == GLUT_MIDDLE_BUTTON&&action == GLUT_DOWN)type = 1;
+	if(button == GLUT_RIGHT_BUTTON&&action == GLUT_DOWN)type = 2;
+	if(button == 3)type = 3;
+	if(button == 4)type = 4;
+	
+	switch(type)
+	{
+	case 0 :		
+//		xrotate +=1.0f;
+		break;
+	case 1 :
+		yrotate +=1.0f;
+		break;
+	case 2 :
+		zrotate +=1.0f;
+		break;
+	case 3 :
+		ztranslate +=0.10f;
+		break;
+	case 4 :
+		ztranslate -=0.10f;
+		break;
+	}
+	glutPostRedisplay();
+
 }
-void mouseMoveFunc(int xMouse,int yMouse)
+void mouseMoveFunc(int x,int y)
 {
+	cout<<"xMouse yMouse: "<<x<<" "<<y<<endl;
+	//printf("%d\n",du);  
+	//du+=x-oldmx; //鼠标在窗口x轴方向上的增量加到视点绕y轴的角度上，这样就左右转了  
+	//h +=0.03f*(y-oldmy); //鼠标在窗口y轴方向上的改变加到视点的y坐标上，就上下转了  
+	//if(h>1.0f) h=1.0f; //视点y坐标作一些限制，不会使视点太奇怪  
+	//else if(h<-1.0f) h=-1.0f;  
+	int incx =  x - oldmx;
+	int incy =  y - oldmy;
+	
+	oldmx=x,oldmy=y; //把此时的鼠标坐标作为旧值，为下一次计算增量做准备  
+	if(abs((float)x)/winwidth <0.1||abs( (float)y)/winheight <0.1||abs((float)(x-winwidth))/winwidth <0.1 || abs( (float)(y-winheight))/winheight <0.1 )zrotate += (incy+incx)/2;
+	else
+	{
+		xrotate += incy;
+		yrotate += incx;
+	}
+
+	
+	glutPostRedisplay();
 
 }
 void initWidow(int argc , char** argv)
