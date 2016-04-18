@@ -24,6 +24,8 @@ float aspect;
 static float c= PI/180.0f; //弧度和角度转换参数 
 static int du=90,oldmy=-1,oldmx=-1; //du是视点绕y轴的角度,opengl里默认y轴是上方向 
 static float r=1.5f,h=0.0f; //r是视点绕y轴的半径,h是视点高度即在y轴上的坐标
+
+static bool isRun = false;
 void display()
 {
 	//glViewport( 0, 0, winwidth/2,winheight/2 ); 
@@ -165,6 +167,9 @@ void keyfunc(unsigned char key, int xMouse,int yMouse)
 		case 'p':
 			zrotate -=1.0f;
 			break;
+		case 'q':
+			isRun =!isRun;
+			break;
 	}
 	glutPostRedisplay();
 
@@ -228,6 +233,11 @@ void mouseMoveFunc(int x,int y)
 	glutPostRedisplay();
 
 }
+void idlefun(void)
+{
+	if(isRun)
+		cout<<"idle"<<endl;
+}
 void initWidow(int argc , char** argv)
 {
 	glutInit(&argc ,argv);
@@ -240,6 +250,7 @@ void initWidow(int argc , char** argv)
 	glutKeyboardFunc( keyfunc );
 	glutMouseFunc( mouseFunc );
 	glutMotionFunc( mouseMoveFunc);
+	glutIdleFunc(idlefun);
 	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS); 
 	glutMainLoop();
 }
