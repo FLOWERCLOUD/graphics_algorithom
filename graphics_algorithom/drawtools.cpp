@@ -3,6 +3,7 @@
 #include "drawtools.h"
 #include "kdtree2d.h"
 #include "freeglut.h"
+#include "rayTrace.h"
 static void drawiter(Node* node)
 {
 	if(node)
@@ -64,9 +65,9 @@ void drawgrid(int rows ,int cols)
 	float gridsize;
 	if( rows > cols)
 	{
-		gridsize = 2.0/rows;
+		gridsize = 2.0f/rows;
 	}else{
-		gridsize = 2.0/cols;
+		gridsize = 2.0f/cols;
 	}
 	 g_gridsize = gridsize;
 	glEnable(GL_DEPTH_TEST);
@@ -160,4 +161,71 @@ void drawline(int indexrow1,int indexcol1 ,int indexrow2,int indexcol2)
 	glDisable(GL_BLEND); 
 	glDisable(GL_LINE_SMOOTH);
 	glDisable(GL_BLEND);
+}
+
+void drawCube(const Point3D& lefdown ,const Point3D& rightTop)
+{
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_POINT_SMOOTH);
+	glHint (GL_POINT_SMOOTH, GL_NICEST);
+	glEnable(GL_BLEND);  
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);  
+
+	glColor3f(1.0f ,0.0f ,0.0f);
+	glPointSize(10.0f);
+	glBegin(GL_POINTS);
+	glVertex3f(lefdown.x ,lefdown.y,lefdown.z);
+	glVertex3f(lefdown.x, rightTop.y,rightTop.z);
+	glVertex3f(lefdown.x ,rightTop.y,lefdown.z);
+	glVertex3f(lefdown.x ,lefdown.y,rightTop.z);
+	glVertex3f(rightTop.x ,lefdown.y,lefdown.z);
+	glVertex3f(rightTop.x ,rightTop.y,lefdown.z);
+	glVertex3f(rightTop.x ,lefdown.y,rightTop.z);
+	glVertex3f(rightTop.x ,rightTop.y ,rightTop.z);
+	glEnd();
+	glDisable(GL_POINT_SMOOTH);
+	glDisable(GL_BLEND); 
+
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LINE_SMOOTH);  
+	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+
+	glColor3f(0.0,0.0f ,1.0f);
+	glLineWidth(5.0f);
+	glBegin( GL_LINES ); 
+	glVertex3f(lefdown.x ,lefdown.y,lefdown.z);
+	glVertex3f(lefdown.x ,lefdown.y,rightTop.z);//
+	glVertex3f(lefdown.x ,lefdown.y,lefdown.z);
+	glVertex3f(lefdown.x ,rightTop.y,lefdown.z);//
+	glVertex3f(lefdown.x ,lefdown.y,lefdown.z);
+	glVertex3f(rightTop.x ,lefdown.y,lefdown.z);//
+
+	glVertex3f(lefdown.x ,lefdown.y,rightTop.z);
+	glVertex3f(lefdown.x ,rightTop.y,rightTop.z);
+	glVertex3f(lefdown.x ,lefdown.y,rightTop.z);
+	glVertex3f(rightTop.x ,lefdown.y,rightTop.z);
+
+	glVertex3f(lefdown.x ,rightTop.y,lefdown.z);
+	glVertex3f(rightTop.x ,rightTop.y,lefdown.z);
+	glVertex3f(lefdown.x ,rightTop.y,lefdown.z);
+	glVertex3f(lefdown.x ,rightTop.y,rightTop.z);
+
+	glVertex3f(rightTop.x ,lefdown.y,lefdown.z);
+	glVertex3f(rightTop.x ,rightTop.y,lefdown.z);
+	glVertex3f(rightTop.x ,lefdown.y,lefdown.z);
+	glVertex3f(rightTop.x ,lefdown.y,rightTop.z);
+
+	glVertex3f(rightTop.x ,rightTop.y ,rightTop.z);
+	glVertex3f(lefdown.x ,rightTop.y ,rightTop.z);
+	glVertex3f(rightTop.x ,rightTop.y ,rightTop.z);
+	glVertex3f(rightTop.x ,lefdown.y ,rightTop.z);
+	glVertex3f(rightTop.x ,rightTop.y ,rightTop.z);
+	glVertex3f(rightTop.x ,rightTop.y ,lefdown.z);
+
+	glEnd();
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_BLEND); 
+	glDisable(GL_LINE_SMOOTH);
+	glDisable(GL_BLEND);
+
 }

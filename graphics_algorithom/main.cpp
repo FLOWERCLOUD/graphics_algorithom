@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "kdtree2d.h"
 #include "drawtools.h"
+#include "rayTrace.h"
 //#include <GL/gl.h>
 #include "freeglut.h"
 #include <iostream>
@@ -61,11 +62,18 @@ void display()
 	glColor3f(1.0,0.0f ,0.0f);
 
 	//draw(globalroot);
-	drawgrid(50,60);
+	//drawgrid(50,60);
+	drawCube( Point3D(-1.0f ,-1.0f ,1.0f) ,Point3D(1.0f, 1.0f ,-1.0f));
 	drawpoint( 0,0);
 	drawpoint( 20,30);
 	drawpoint( 10,10);
 	drawline( 0,0 ,10,10);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	TetraHedron tetra(1);
+	tetra.draw();
+	glDisable(GL_LIGHTING);
+	glDisable(GL_LIGHT0);
 	//drwa rectangle
 	//glRectf( -0.5f ,-0.5f , 0.5f, 0.5f);
 
@@ -257,18 +265,18 @@ void initWidow(int argc , char** argv)
 int _tmain(int argc, _TCHAR* argv[])
 {
 	
-	KdTreeBuilder kb;
+	//KdTreeBuilder kb;
 	vector<Point2D> pointarry;
 	float xarray[] = {-1.0f , 1.0f ,0.0f, -1.0f,0.0f ,0.2f ,-0.2f , -0.4f ,0.4f };
-	float yarray[] = {-1.0f , 1.0f ,0.0f, 0.0f ,-1.0f ,0.3f ,0.2f ,0.4 ,-0.2f};
+	float yarray[] = {-1.0f , 1.0f ,0.0f, 0.0f ,-1.0f ,0.3f ,0.2f ,0.4f ,-0.2f};
 	 
-	Node* root = kb.build( xarray ,yarray ,sizeof(xarray)/sizeof(float) );
-	Node::printNode(root,0);
+	//Node* root = kb.build( xarray ,yarray ,sizeof(xarray)/sizeof(float) );
+	//Node::printNode(root,0);
 	//Node::freeNode(root);
 	//Node::printNode(root,0);
-	globalroot = root;
+	//globalroot = root;
 	initWidow( argc , (char**)argv);
-	Node::freeNode(root);
+	//Node::freeNode(root);
 	return 0;
 }
 
