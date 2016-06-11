@@ -5,6 +5,7 @@
 #include "kdtree2d.h"
 #include "drawtools.h"
 #include "rayTrace.h"
+#include "particle.h"
 //#include <GL/gl.h>
 #include "freeglut.h"
 #include <iostream>
@@ -70,11 +71,18 @@ void display()
 	drawline( 0,0 ,10,10);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
-	TetraHedron tetra(1);
-	tetra.draw();
+//	TetraHedron tetra(2);
+//	tetra.draw();
 	glDisable(GL_LIGHTING);
 	glDisable(GL_LIGHT0);
-	//drwa rectangle
+	//glFlush();
+//	drawgrid(50,60);
+	glFlush();
+
+
+
+//  __NAMESPACE_PARTICLE__::particle_display();
+	//draw rectangle
 	//glRectf( -0.5f ,-0.5f , 0.5f, 0.5f);
 
 	////draw round points
@@ -245,21 +253,40 @@ void idlefun(void)
 {
 	if(isRun)
 		cout<<"idle"<<endl;
+	__NAMESPACE_PARTICLE__::particle_idle();
+}
+void mainmenu(int index)
+{
+	__NAMESPACE_PARTICLE__::particle_mainmenu(index);
+}
+void init()
+{
+	__NAMESPACE_PARTICLE__::particle_init();
 }
 void initWidow(int argc , char** argv)
 {
+	init();
 	glutInit(&argc ,argv);
 	glutInitDisplayMode(GLUT_DOUBLE |GLUT_RGB|GLUT_DEPTH);
+	//glutInitDisplayMode(GLUT_RGB|GLUT_DEPTH);
 	glutInitWindowPosition(100,100);
 	glutInitWindowSize( 500 ,500);
 	glutCreateWindow( "kdtree");
+	glutCreateMenu(mainmenu);
+	glutAddMenuEntry("more particles" ,1);
+	glutAddMenuEntry("fewer particles",2);
+	glutAddMenuEntry("speed",3);
+	glutAddMenuEntry("gravity",4);
+	glutAddMenuEntry("elastic",5);
+	glutAddMenuEntry("increase pointsize",6);
+	glutAttachMenu(GLUT_MIDDLE_BUTTON);
 	glutDisplayFunc( display );
 	glutReshapeFunc( reshape );
 	glutKeyboardFunc( keyfunc );
 	glutMouseFunc( mouseFunc );
 	glutMotionFunc( mouseMoveFunc);
 	glutIdleFunc(idlefun);
-	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS); 
+	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS); //这个用于保证循环退出时能继续运行后面的代码
 	glutMainLoop();
 }
 int _tmain(int argc, _TCHAR* argv[])
@@ -276,6 +303,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	//Node::printNode(root,0);
 	//globalroot = root;
 	initWidow( argc , (char**)argv);
+	
 	//Node::freeNode(root);
 	return 0;
 }
