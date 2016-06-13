@@ -6,6 +6,8 @@
 #include "drawtools.h"
 #include "rayTrace.h"
 #include "particle.h"
+#include "meshReadAndWrite.h"
+#include "mytype.h"
 //#include <GL/gl.h>
 #include "freeglut.h"
 #include <iostream>
@@ -13,7 +15,7 @@
 using namespace std;
 int winwidth ,winheight;
 Node* globalroot;
-
+MeshModelType* mesh;
 //parameter of view
 const float PI  = 3.14159f;
 float xtranslate , ytranslate = 0.0f;
@@ -78,9 +80,8 @@ void display()
 	//glFlush();
 //	drawgrid(50,60);
 	glFlush();
-
-
-
+	drawAxis(xrotate,yrotate,zrotate);
+	renderMeshModelWired(mesh);
 //  __NAMESPACE_PARTICLE__::particle_display();
 	//draw rectangle
 	//glRectf( -0.5f ,-0.5f , 0.5f, 0.5f);
@@ -296,14 +297,15 @@ int _tmain(int argc, _TCHAR* argv[])
 	vector<Point2D> pointarry;
 	float xarray[] = {-1.0f , 1.0f ,0.0f, -1.0f,0.0f ,0.2f ,-0.2f , -0.4f ,0.4f };
 	float yarray[] = {-1.0f , 1.0f ,0.0f, 0.0f ,-1.0f ,0.3f ,0.2f ,0.4f ,-0.2f};
-	 
+	mesh = new MeshModelType; 
+	_HHY_MESH_::ReadWriteManager::getInstance().readMesh(".\\snake1.obj",*mesh);
 	//Node* root = kb.build( xarray ,yarray ,sizeof(xarray)/sizeof(float) );
 	//Node::printNode(root,0);
 	//Node::freeNode(root);
 	//Node::printNode(root,0);
 	//globalroot = root;
 	initWidow( argc , (char**)argv);
-	
+	delete mesh;
 	//Node::freeNode(root);
 	return 0;
 }

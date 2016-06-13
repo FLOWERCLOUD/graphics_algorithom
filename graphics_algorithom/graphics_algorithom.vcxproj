@@ -80,7 +80,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)freeglut\include\GL\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -154,6 +154,8 @@
   <ItemGroup>
     <ClInclude Include="drawtools.h" />
     <ClInclude Include="kdtree2d.h" />
+    <ClInclude Include="meshReadAndWrite.h" />
+    <ClInclude Include="mytype.h" />
     <ClInclude Include="particle.h" />
     <ClInclude Include="rayTrace.h" />
     <ClInclude Include="stdafx.h" />
@@ -163,6 +165,7 @@
     <ClCompile Include="drawtools.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="kdtree2d.cpp" />
+    <ClCompile Include="meshReadAndWrite.cpp" />
     <ClCompile Include="particle.cpp" />
     <ClCompile Include="rayTrace.cpp" />
     <ClCompile Include="stdafx.cpp" />

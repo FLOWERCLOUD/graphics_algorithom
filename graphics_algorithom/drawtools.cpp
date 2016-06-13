@@ -229,3 +229,81 @@ void drawCube(const Point3D& lefdown ,const Point3D& rightTop)
 	glDisable(GL_BLEND);
 
 }
+
+void drawAxis( float xrotate ,float yrotate ,float zrotate)
+{
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();	
+	glLoadIdentity();
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+	glTranslatef( 0.0f, 0.0f ,-1.0f);
+	glRotatef( xrotate, 1.0f ,0.0f ,0.0f);
+	glRotatef( yrotate, 0.0f ,1.0f ,0.0f);
+	glRotatef( zrotate, 0.0f ,0.0f ,1.0f);
+	glColor4f( 1.0f ,0.0f ,0.0f, 1.0f);
+	glBegin(GL_LINES);
+	glVertex3f( 0.0f ,0.0f ,0.0f);
+	glVertex3f( 1.0f ,0.0f ,0.0f);
+	glEnd();
+	glColor4f( 0.0f ,1.0f ,0.0f, 1.0f);
+	glBegin(GL_LINES);
+	glVertex3f( 0.0f ,0.0f ,0.0f);
+	glVertex3f( 0.0f ,1.0f ,0.0f);
+	glEnd();
+	glColor4f( 0.0f ,0.0f ,1.0f, 1.0f);
+	glBegin(GL_LINES);
+	glVertex3f( 0.0f ,0.0f ,0.0f);
+	glVertex3f( 0.0f ,0.0f ,1.0f);
+	glEnd();
+	
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+}
+#include "mytype.h"
+void renderMeshModel(const MeshModelType* const _model)
+{
+	my_index_type i_triangle;
+	my_size_type n_triangel = _model->n_triangle;
+	glBegin(GL_TRIANGLES);
+	for(i_triangle = 0; i_triangle < n_triangel;++i_triangle)
+	{
+		const std::vector<NormalType>& m_norms = _model->normal_array;
+		const std::vector<VertexType>& m_vtxs = _model->vertex_array;
+		const TriangleType& m_triangle = _model->triangle_array[i_triangle];
+		if(m_triangle.i_norm[0]!=-1)glNormal3fv( (GLfloat*)m_norms[m_triangle.i_norm[0]].array );
+		glVertex3fv( (GLfloat*)m_vtxs[m_triangle.i_vertex[0]].array );
+		if(m_triangle.i_norm[1]!=-1)glNormal3fv( (GLfloat*)m_norms[m_triangle.i_norm[1]].array );
+		glVertex3fv( (GLfloat*)m_vtxs[m_triangle.i_vertex[1]].array );
+		if(m_triangle.i_norm[2]!=-1)glNormal3fv( (GLfloat*)m_norms[m_triangle.i_norm[2]].array );
+		glVertex3fv( (GLfloat*)m_vtxs[m_triangle.i_vertex[2]].array );
+	}
+	glEnd();
+}
+
+void renderMeshModelWired(const MeshModelType* const _model)
+{
+	my_index_type i_triangle;
+	my_size_type n_triangel = _model->n_triangle;
+	
+	for(i_triangle = 0; i_triangle < n_triangel;++i_triangle)
+	{
+		const std::vector<NormalType>& m_norms = _model->normal_array;
+		const std::vector<VertexType>& m_vtxs = _model->vertex_array;
+		const TriangleType& m_triangle = _model->triangle_array[i_triangle];
+		glBegin(GL_LINE_LOOP);
+		if(m_triangle.i_norm[0]!=-1)glNormal3fv( (GLfloat*)m_norms[m_triangle.i_norm[0]].array );
+		glVertex3fv( (GLfloat*)m_vtxs[m_triangle.i_vertex[0]].array );
+		if(m_triangle.i_norm[1]!=-1)glNormal3fv( (GLfloat*)m_norms[m_triangle.i_norm[1]].array );
+		glVertex3fv( (GLfloat*)m_vtxs[m_triangle.i_vertex[1]].array );
+		if(m_triangle.i_norm[2]!=-1)glNormal3fv( (GLfloat*)m_norms[m_triangle.i_norm[2]].array );
+		glVertex3fv( (GLfloat*)m_vtxs[m_triangle.i_vertex[2]].array );
+		glEnd();
+	}
+	
+}
+
+
