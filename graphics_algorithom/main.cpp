@@ -30,6 +30,13 @@ static int du=90,oldmy=-1,oldmx=-1; //du « ”µ„»∆y÷·µƒΩ«∂»,opengl¿Ôƒ¨»œy÷· «…œ∑Ωœ
 static float r=1.5f,h=0.0f; //r « ”µ„»∆y÷·µƒ∞Îæ∂,h « ”µ„∏ﬂ∂»º¥‘⁄y÷·…œµƒ◊¯±Í
 
 static bool isRun = false;
+
+extern const gl_Material material = {
+	{0.0f, 0.0f, 1.0f, 0.0f},     /* ambient */
+	{0.0f, 1.0f, 0.0f, 0.0f},     /* diffuse */
+	{0.0f, 1.0f, 0.0f, 1.0f},     /* specular */
+	{2.0f, 0, 0, 0}               /* shininess */
+};
 void display()
 {
 	//glViewport( 0, 0, winwidth/2,winheight/2 ); 
@@ -73,15 +80,24 @@ void display()
 	drawline( 0,0 ,10,10);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
-//	TetraHedron tetra(2);
-//	tetra.draw();
+	TetraHedron tetra(2);
+	tetra.draw();
 	glDisable(GL_LIGHTING);
 	glDisable(GL_LIGHT0);
 	//glFlush();
 //	drawgrid(50,60);
 	glFlush();
 	drawAxis(xrotate,yrotate,zrotate);
-	renderMeshModelWired(mesh);
+	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+	glEnable(GL_COLOR_MATERIAL);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glShadeModel(GL_SMOOTH);
+	SetMaterial(&material);
+	renderMeshModel(mesh);
+	glDisable(GL_LIGHTING);
+	glDisable(GL_LIGHT0);
 //  __NAMESPACE_PARTICLE__::particle_display();
 	//draw rectangle
 	//glRectf( -0.5f ,-0.5f , 0.5f, 0.5f);

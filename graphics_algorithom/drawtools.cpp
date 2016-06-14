@@ -268,6 +268,7 @@ void renderMeshModel(const MeshModelType* const _model)
 {
 	my_index_type i_triangle;
 	my_size_type n_triangel = _model->n_triangle;
+	glEnable(GL_DEPTH_TEST);
 	glBegin(GL_TRIANGLES);
 	for(i_triangle = 0; i_triangle < n_triangel;++i_triangle)
 	{
@@ -282,13 +283,15 @@ void renderMeshModel(const MeshModelType* const _model)
 		glVertex3fv( (GLfloat*)m_vtxs[m_triangle.i_vertex[2]].array );
 	}
 	glEnd();
+	glDisable(GL_DEPTH_TEST);
 }
 
 void renderMeshModelWired(const MeshModelType* const _model)
 {
 	my_index_type i_triangle;
 	my_size_type n_triangel = _model->n_triangle;
-	
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
 	for(i_triangle = 0; i_triangle < n_triangel;++i_triangle)
 	{
 		const std::vector<NormalType>& m_norms = _model->normal_array;
@@ -303,7 +306,27 @@ void renderMeshModelWired(const MeshModelType* const _model)
 		glVertex3fv( (GLfloat*)m_vtxs[m_triangle.i_vertex[2]].array );
 		glEnd();
 	}
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
 	
+}
+
+void renderPanel(void)
+{
+	extern MeshModelType* mesh;
+	extern const gl_Material material;
+	SetMaterial(&material);
+	renderMeshModel(mesh);
+}
+
+
+void SetMaterial(const gl_Material *material)
+{
+	/* define material properties of all polygons */
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,   material->ambient);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE,   material->diffuse);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,  material->specular);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, material->shininess);
 }
 
 

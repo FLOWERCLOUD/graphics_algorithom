@@ -55,4 +55,13 @@ enum Mesh_File_Type
 {
 	OBJ,PLY,OFF
 };
+
+class gl_Material
+{public:
+	float ambient[4];
+	float diffuse[4];
+	float specular[4];
+	float shininess[4];
+};
+
 #endif

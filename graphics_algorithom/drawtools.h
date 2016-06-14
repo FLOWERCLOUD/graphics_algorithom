@@ -12,5 +12,8 @@ void drawAxis( float xrotate ,float yrotate ,float zrotate);
 class MeshModelType;
 void renderMeshModel(const MeshModelType* const _model);
 void renderMeshModelWired(const MeshModelType* const _model);
+void renderPanel(void);
+class gl_Material;
+void SetMaterial(const gl_Material *material);
 
 #endif

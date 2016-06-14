@@ -26,7 +26,7 @@ namespace _HHY_MESH_
 					}else if(strcmp(pref,"vn") ==0)
 					{
 						NormalType nt;
-						fscanf(fd,"%f f %f",&(nt.vtx.x),&(nt.vtx.y),&(nt.vtx.z));
+						fscanf(fd,"%f %f %f",&(nt.vtx.x),&(nt.vtx.y),&(nt.vtx.z));
 						_model.normal_array.push_back(nt);
 					}else if( strcmp(pref,"f")==0)
 					{   
@@ -34,7 +34,7 @@ namespace _HHY_MESH_
 						for(int i_v = 0; i_v<3 ; i_v++)
 						{
 							fscanf(fd, "%d",&tt.i_vertex[i_v]);
-							if(pref[0] = (char)getc(fd) ==' ')
+							if((pref[0] = (char)getc(fd)) ==' ')
 							{
 								while( (pref[0] = (char)getc(fd)) ==' ');
 								if( pref[0] == '\n'||pref[0]==EOF )
